@@ -13,11 +13,12 @@
 	</button>
 	<div class="flex-it h-full">
 		<div class="flex-it flex-row rounded-xl h-full">
-			<!-- TASK LIST START -->
-			<TaskList listName="List1"/>
-			<TaskList listName="List2" />
-			<TaskList listName="List3"/>
-			<!-- TASK LIST END -->
+			{#each taskList as item (item.id)}
+				<TaskList 
+				listName = {item.text}
+				tasks = {item.items}
+				/>
+			{/each}
 		</div>
 	</div>
 </div>

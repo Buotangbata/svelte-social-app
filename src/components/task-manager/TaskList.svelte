@@ -2,6 +2,7 @@
 	import Taskitem from "./taskitem.svelte";
 
     export let listName = "List"; 
+    export let tasks = [{id: "t-0", text: "Task 0"}];
 </script>
 
 <div class="flex-it h-full w-80 max-w-sm min-h-full m-2 my-0">
@@ -30,12 +31,9 @@
             </div>
         </div>
         <div class="overflow-x-hidden overflow-y-auto with-scrollbar p-2">
-            <!-- TASK ITEM START -->
-            <Taskitem taskText="Hello"/>
-            <Taskitem/>
-            <Taskitem/>
-            
-            <!-- TASK ITEM END -->
+            {#each tasks as task (task.id)}
+                <Taskitem taskText={task.text}/>
+            {/each}
         </div>
         <button class="underline flex p-2"> + Add Task </button>
     </div>
