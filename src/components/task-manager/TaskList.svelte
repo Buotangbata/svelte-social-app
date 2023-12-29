@@ -32,7 +32,7 @@
         </div>
         <div class="overflow-x-hidden overflow-y-auto with-scrollbar p-2">
             {#each tasks as task (task.id)}
-                <Taskitem taskText={task.text}/>
+                <Taskitem task = {task}/>
             {/each}
         </div>
         <button class="underline flex p-2"> + Add Task </button>
