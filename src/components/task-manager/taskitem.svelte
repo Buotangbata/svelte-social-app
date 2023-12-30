@@ -7,9 +7,7 @@
 
     <div class="flex-it border border-solid p-2 rounded-xl bg-slate-500 mb-2 cursor-pointer">
         <div class="flex-it">
-            <Editable bind:value on:close={(e)=>{
-                alert("Updated: " + e.detail.value);
-            }}>
+            <Editable bind:value on:close>
                 <div class="flex-it flex-row">
                     
                     <div class="flex flex-1">{task.text}</div>
