@@ -5,8 +5,10 @@
 
 <script>
     import { taskListStore } from "../../stores/tasks";
+    import { flip } from "svelte/animate";
+    import { fade,fly } from "svelte/transition";
 	import Taskitem from "./taskitem.svelte";
-
+    import {send, recieve} from "../../transition";
     export let list; 
     export let listIdx;
 </script>
@@ -50,11 +52,18 @@
         </div>
         <div class="overflow-x-hidden overflow-y-auto with-scrollbar p-2">
             {#each list.items as task,taskIdx (task.id)}
-                <Taskitem 
-                task = {task}
-                {listIdx}
-                {taskIdx}
-                 />
+                <div 
+                    in:fade
+                    out:fly = {{y:-100}}
+                    animate:flip
+                    >
+                    <Taskitem 
+                    task = {task}
+                    {listIdx}
+                    {taskIdx}
+                     />
+                </div>
+                
             {/each}
         </div>
         <button class="underline flex p-2"
