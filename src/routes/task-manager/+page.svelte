@@ -12,10 +12,11 @@
 	</button>
 	<div class="flex-it h-full"> 
 		<div class="flex-it flex-row rounded-xl h-full">
-			{#each $taskListStore as item (item.id)}
+			{#each $taskListStore as item,i  (item.id)}
 				<TaskList 
 				listName = {item.text}
 				tasks = {item.items}
+				idx = {i}
 				/>
 			{/each}
 		</div>
