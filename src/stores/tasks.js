@@ -6,7 +6,10 @@ const defData= [
     {id: "l-3", text: "List 3", items: [{id: "t-21", text: "Task 7"},{id: "2t-2", text: "Task 8"},{id: "t-23", text: "Task 9"}]},
   ];
 function createStore(){
-    const taskList  = writable(defData);
+    const stored = JSON.parse(localStorage.getItem("task-manager-store"));
+    const _taskList = stored? stored:defData;
+    const taskList  = writable(_taskList);
+
     return {
       subscribe: taskList.subscribe,
       updateTask:(task,idx)=>{
@@ -52,4 +55,8 @@ function createStore(){
     };
 }
 
-export const taskListStore = createStore();
+export const taskListStore = createStore(); 
+
+taskListStore.subscribe((list)=>{
+  localStorage.setItem("task-manager-store",JSON.stringify(list));
+});
