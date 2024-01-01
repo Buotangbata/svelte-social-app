@@ -1,9 +1,9 @@
 
 import { writable, get } from "svelte/store";
 const defData= [
-    {id: "l-1", text: "List 1", items: [{id: "t-1", text: "Task 1"},{id: "t-2", text: "Task 2"},{id: "t-3", text: "Task 3"}]},
-    {id: "l-2", text: "List 2", items: [{id: "t-1", text: "Task 4"},{id: "t-2", text: "Task 5"},{id: "t-3", text: "Task 6"}]},
-    {id: "l-3", text: "List 3", items: [{id: "t-1", text: "Task 7"},{id: "t-2", text: "Task 8"},{id: "t-3", text: "Task 9"}]},
+    {id: "l-1", text: "List 1", items: [{id: "t-01", text: "Task 1"},{id: "t-02", text: "Task 2"},{id: "t-3", text: "Task 03"}]},
+    {id: "l-2", text: "List 2", items: [{id: "t-11", text: "Task 4"},{id: "t-12", text: "Task 5"},{id: "t-13", text: "Task 6"}]},
+    {id: "l-3", text: "List 3", items: [{id: "t-21", text: "Task 7"},{id: "2t-2", text: "Task 8"},{id: "t-23", text: "Task 9"}]},
   ];
 function createStore(){
     const taskList  = writable(defData);
@@ -38,6 +38,16 @@ function createStore(){
               text: "New Task"}];
           return list;
         })
+      },
+      moveTask: (srcData, newIdx)=>{
+
+        taskList.update((list)=>{
+          const [task] = list[srcData.listIdx].items.splice(srcData.taskIdx,1);
+          list[newIdx].items.push(task);
+          return list;
+        });
+        console.log("dropping to list :" + newIdx);
+        console.log("Source list idx:" + srcData);
       }
     };
 }

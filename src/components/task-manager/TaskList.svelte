@@ -1,17 +1,33 @@
+<script context = "module">
+    import {writable} from "svelte/store";
+    let hoverId = writable(null);
+</script>
+
 <script>
-	import { taskListStore } from "../../stores/tasks";
+    import { taskListStore } from "../../stores/tasks";
 	import Taskitem from "./taskitem.svelte";
 
-    export let listName = "List"; 
-    export let tasks = [{id: "t-0", text: "Task 0"}];
-    export let idx;
+    export let list; 
+    export let listIdx;
 </script>
 
 <div class="flex-it h-full w-80 max-w-sm min-h-full m-2 my-0">
-    <div class="bg-slate-400 flex-it rounded-xl max-h-full border-2 border-gray-500">
+    <!-- svelte-ignore a11y-no-static-element-interactions -->
+    <div
+        on:dragenter={()=>hoverId.set(list.id) }
+        on:dragover|preventDefault={()=>{}}
+        on:drop={(e)=>{
+            const sourceData = e.dataTransfer.getData("text/plain");
+            const data = JSON.parse(sourceData);
+            taskListStore.moveTask(data, listIdx);
+            hoverId.set(null);
+        }} 
+
+        class:hovering = {list.id === $hoverId}
+        class="bg-slate-400 flex-it rounded-xl max-h-full border-2 border-gray-500">
         <div class="flex-it m-3">
             <div class="flex-it flex-row">
-                <div class="text-xl text-left font-bold mr-2">{listName}</div>
+                <div class="text-xl text-left font-bold mr-2">{list.text}</div>
                 <div class="flex hover:text-red-600 items-center">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -33,15 +49,23 @@
             </div>
         </div>
         <div class="overflow-x-hidden overflow-y-auto with-scrollbar p-2">
-            {#each tasks as task (task.id)}
+            {#each list.items as task,taskIdx (task.id)}
                 <Taskitem 
                 task = {task}
-                {idx}
+                {listIdx}
+                {taskIdx}
                  />
             {/each}
         </div>
         <button class="underline flex p-2"
-                on:click={()=>taskListStore.addTask(idx)}
+                on:click={()=>taskListStore.addTask(listIdx)}
         > + Add Task </button>
     </div>
 </div>
+
+<style>
+    .hovering{
+        border: 2px solid orangered;
+    }
+
+</style>

@@ -2,19 +2,29 @@
     import Editable from "./Editable.svelte";
     import { taskListStore } from "../../stores/tasks";
     export let task;
-    export let idx;
+    export let listIdx;
+    export let taskIdx;
+
     let value = task.text;
 
+    function dragStart (e){
+        console.log("drag");
+        const data = {listIdx, taskIdx};
+        e.dataTransfer.setData("text/plain",JSON.stringify(data));
+        console.log("source data: " + JSON.stringify(data));
+    }
+
 </script>
-
-
-    <div class="flex-it border border-solid p-2 rounded-xl bg-slate-500 mb-2 cursor-pointer">
+    <li draggable="true"
+        on:dragstart={dragStart}
+        class="flex-it border border-solid p-2 rounded-xl bg-slate-500 mb-2 cursor-pointer"
+        >
         <div class="flex-it">
             <Editable bind:value on:close = {(e)=>{
                 taskListStore.updateTask({
                     id: task.id,
                     text: e.detail.value
-                }, idx);
+                }, listIdx);
             }}>
                 <div class="flex-it flex-row">
                     
@@ -41,5 +51,5 @@
                 </div>
             </Editable>
         </div>
-    </div>
+    </li>
 

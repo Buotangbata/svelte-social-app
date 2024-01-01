@@ -157,6 +157,9 @@ body {
   opacity: 0;
 }
 
+.dragging{
+  opacity:1;
+}
 
 .openModal:after {
   position: fixed;
