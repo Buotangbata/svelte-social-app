@@ -1,12 +1,11 @@
 <script>
 	import TaskList from "../../components/task-manager/TaskList.svelte";
-	import {taskListStore} from "../../stores/tasks";
-
-	
+	import {taskListStore} from "../../stores/tasks";	
+	export let data;
 </script>
 
 <div class="p-10 h-full felx-it">
-	<div class="text-white text-2xl mb-6">Some List</div>
+	<div class="text-white text-2xl mb-6">{data.page.appName} - {data.page.content}</div>
 	<button class="text-xl mb-3 text-white font-bold cursor-pointer hover:underline flex items-start"
 			on:click={taskListStore.addList}>
 		+ Add List

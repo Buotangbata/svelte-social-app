@@ -32,7 +32,7 @@ function createStore(){
           return [...list, {
             id: new Date().toISOString(),
             text:"New list "+ ++list.length ,
-            items: [{id: "t-1", text: "Task 1"}]
+            items: [{id: new Date().toISOString(), text: "Task 1"}]
           }]
         })
         console.log(get(taskList))
