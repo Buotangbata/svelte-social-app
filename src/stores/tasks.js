@@ -15,17 +15,22 @@ function createStore(){
       updateTask:(task,idx)=>{
           const taskidx = get(taskList)[idx].items.findIndex(item => item.id === task.id);
           if(taskidx !== null){
-              alert(`Update on task in index: ${taskidx}`);
               taskList.update((list) => {
                   list[idx].items[taskidx].text =task.text;
                   return list;
               });
           }
       },
+      updateList:(newText,idx)=>{
+        taskList.update((list)=>{
+          list[idx].text = newText;
+          return list;
+        })
+      },
       addList: ()=>{
         taskList.update((list)=>{
           return [...list, {
-            id:"l-"+ ++list.length,
+            id: new Date().toISOString(),
             text:"New list "+ ++list.length ,
             items: [{id: "t-1", text: "Task 1"}]
           }]
@@ -37,7 +42,7 @@ function createStore(){
           const {items} =  list[listIdx];
           list[listIdx].items= [
             ...items, {
-              id: "t-"+ ++items.length, 
+              id: new Date().toISOString(), 
               text: "New Task"}];
           return list;
         })
@@ -51,8 +56,21 @@ function createStore(){
         });
         console.log("dropping to list :" + newIdx);
         console.log("Source list idx:" + srcData);
+      },
+      removeTask: (listIdx,taskIdx)=>{
+        taskList.update((list)=>{
+          list[listIdx].items.splice(taskIdx,1);
+          return list;
+        });
+      },
+
+      removeList: (listIdx)=>{
+        taskList.update((list)=>{
+          list.splice(listIdx,1);
+          return list;
+        });
       }
-    };
+}
 }
 
 export const taskListStore = createStore(); 
